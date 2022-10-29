@@ -2,19 +2,25 @@
 #include <iostream>
 #include "Utils.h"
 #include "Screen.h"
+#include "InputSystem.h"
+
 using namespace std;
+
+
 
 class GameObject
 {
 	Position pos;
 	char* shape;
 	Dimension dim;
+
+protected:
+	InputSystem& input;
 	Screen& screen;
-	
 
 public:
-	GameObject(char shape, int x, int y, Screen& screen)
-		: pos(x, y), shape(nullptr), dim(1, 1), screen(screen)
+	GameObject(char shape, int x, int y, Screen& screen, InputSystem& input)
+		: pos(x, y), shape(nullptr), dim(1, 1), screen(screen), input(input)
 	{
 		this->shape = (char*)new char[dim.size() + 1];
 		this->shape[0] = shape;
@@ -25,7 +31,7 @@ public:
 		delete[] shape;
 	}
 
-	Position getPos() const { return pos; }
+	auto getPos() const { return pos; }
 
 	void setPos(const Position& pos)
 	{
@@ -33,17 +39,16 @@ public:
 			return;
 		this->pos.x = pos.x; this->pos.y = pos.y;
 	}
-	void setFlagPos(const Position& pos)
-	{
-		this->pos.x = pos.x; this->pos.y = pos.y;
-	}
-	
 
-	char getShape() const { return shape[0]; }
+	auto getShape() const { return shape[0]; }
+
+	virtual void draw()
+	{
+		screen.draw(pos, shape[0]);
+	}
 
 
 	virtual void update() {}
-
 
 };
 

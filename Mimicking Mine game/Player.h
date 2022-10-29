@@ -1,73 +1,44 @@
 #pragma once
 #include <conio.h>
 #include "GameObject.h"
-#include"Flag.h"
 
-
-class Player : public GameObject
+class Player :
+	public GameObject
 {
-public:
-	Player(int x, int y, Screen& screen) : GameObject('>', x, y, screen) {}
 
-	void processInput()
+	auto processInput()
 	{
-		int key;
-		int minor;
-
-		if (!_kbhit()) return;
-
-		Borland::GotoXY(0, 21);
-		key = _getch();
-
-		Borland::GotoXY(1, 23);
-		printf("player key is %c   %x %d\n", key, key, key);
-
-		Position pos = getPos();
-
-		switch (key) {
-		case 224:
-			minor = _getch();
-			printf("player minor key is %c   %x %d\n", minor, minor, minor);
-			switch (minor) {
-			case 'a':
-				pos.x--;
-				break;
-			case 'd':
-				pos.x++;
-				break;
-			case 'w':
-				pos.y++;
-				break;
-			case 's':
-				pos.y--;
-				break;
-			}
-			break;
-		case 'w':
+		auto pos = getPos();
+		if (input.getKeyDown(0x57)) {
 			pos.y--;
-			break;
-		case 'a':
-			pos.x--;
-			break;
-		case 's':
-			pos.y++;
-			break;
-		case 'd':
-			pos.x++;
-			break;
-		case'p':
-			setFlagPos(pos);
-			
-
 		}
-
+		else if (input.getKeyDown(0x41)) {
+			pos.x--;
+		}
+		else if (input.getKeyDown(0x53)) {
+			pos.y++;
+		}
+		else if (input.getKeyDown(0x44)) {
+			pos.x++;
+		}
 		setPos(pos);
-
 	}
+
+public:
+	Player(int x, int y, Screen& screen, InputSystem& input)
+		: GameObject('>', x, y, screen, input)
+	{}
+
 
 	void update() override
 	{
 		processInput();
+	}
+
+	void draw() override
+	{
+		GameObject::draw();
+		//screen.draw(getPos() + Position{ 0, -1 }, 'P');
 	}
 
 
