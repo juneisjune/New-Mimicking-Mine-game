@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <conio.h>
 #include "Utils.h"
 #include <fstream>
@@ -84,10 +84,13 @@ class InputSystem
 				case MouseState::Idle:
 					mouse[0] = MouseState::Pressed;
 					mousePosition = mer.dwMousePosition;
+					//printf("%s", mousePosition);
 					break;
 				case MouseState::Pressed:
 					mouse[0] = MouseState::Stay;
 					mousePosition = mer.dwMousePosition;
+					
+
 					break;
 				}
 			}
@@ -97,10 +100,14 @@ class InputSystem
 				case MouseState::Idle:
 					mouse[1] = MouseState::Pressed;
 					mousePosition = mer.dwMousePosition;
+					
+
 					break;
 				case MouseState::Pressed:
 					mouse[1] = MouseState::Stay;
 					mousePosition = mer.dwMousePosition;
+				
+
 					break;
 				}
 				mousePosition = mer.dwMousePosition;
@@ -136,8 +143,8 @@ class InputSystem
 			break;
 		}
 	}
-
 public:
+
 	InputSystem() {
 		DWORD fdwMode;
 
@@ -235,14 +242,14 @@ public:
 
 	auto getKeyDown(WORD keyCode) const
 	{
-		//printf("key state down [%x]\n", keys[keyCode & 0x00ff]);
+		printf("key state down [%x]\n", keys[keyCode & 0x00ff]);
 		return keys[keyCode & 0x00ff] == KeyState::Pressed
 			|| keys[keyCode & 0x00ff] == KeyState::PressedReleased;
 	}
 
 	auto getKey(WORD keyCode) const
 	{
-		//printf("key state stay [%x]\n", keys[keyCode & 0x00ff]);
+		printf("key state stay [%x]\n", keys[keyCode & 0x00ff]);
 		return keys[keyCode & 0x00ff] == KeyState::Pressed
 			|| keys[keyCode & 0x00ff] == KeyState::Stay
 			|| keys[keyCode & 0x00ff] == KeyState::PressedReleased
@@ -251,26 +258,30 @@ public:
 
 	auto getKeyUp(WORD keyCode) const
 	{
-		//printf("key state up [%x]\n", keys[keyCode & 0x00ff]);
+		Borland::GotoXY(0, 28);
+		printf("key state up [%x]\n", keys[keyCode & 0x00ff]);
 		return keys[keyCode & 0x00ff] == KeyState::Released
 			|| keys[keyCode & 0x00ff] == KeyState::PressedReleased;
 	}
 
 	auto getMouseButton(int button) const
 	{
-		//printf("mouse state [%x]\n", mouse[button]);
+		Borland::GotoXY(0, 28);
+		printf("mouse state [%x]\n", mouse[button]);
 		return mouse[button] == MouseState::Pressed
 			|| mouse[button] == MouseState::Stay
 			|| mouse[button] == MouseState::Released;
 	}
 	auto getMouseButtonDown(int button) const
 	{
-		//printf("mouse state down [%x]\n", mouse[button]);
+		Borland::GotoXY(0, 28);
+		printf("mouse state down [%x]\n", mouse[button]);
 		return mouse[button] == MouseState::Pressed;
 	}
 	auto getMouseButtonUp(int button) const
 	{
-		//printf("mouse state up [%x]\n", mouse[button]);
+		Borland::GotoXY(0, 28);
+		printf("mouse state up [%x]\n", mouse[button]);
 		return mouse[button] == MouseState::Released;
 	}
 
