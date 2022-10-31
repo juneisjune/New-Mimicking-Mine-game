@@ -7,42 +7,58 @@
 #include "Utils.h"
 #include "Screen.h"
 #include "InputSystem.h"
-
-#define ROW 9
-#define COL 9
-
 using namespace std;
 
 int main()
 {
-    int x, y, sel = 0;
-
-
-    int overflag, resetflag = 1;
-    Utility Util;
+    int over, reset = 1;
+    Screen screen;
     InputSystem input;
 
-    while (resetflag)
+    while (reset)
     {
-        overflag = 0;
-        Util.MineDeploy();
+        over = 0;
+        screen.settingMine();
 
-        while (!overflag)
+        while (!over)
         {
             Borland::GotoXY(0, 0);
             
-            Util.DrawMap();
+            screen.DrawMap();
             input.readEveryFrame();
            
             
-            if (input.getMouseButtonDown(0))
+            if (input.getMouseButtonDown(0)) //when input left mouse button
             {
                 auto mousePos = input.getMousePosition();
-                Borland::GotoXY(0, 28);
+                Borland::GotoXY(0, 15);
                 printf("mouse position [%03d, %03d]\n", mousePos.x, mousePos.y);
-                Util.OpenField(mousePos.y, mousePos.x);
+                if (mousePos.y < 1 || mousePos.y>9 || mousePos.x < 1 || mousePos.x>9)
+                {
+                    Borland::GotoXY(0, 14);
+                    printf("You input wrong place do it again\n");
+                    Sleep(500);
+                    system("cls");
+                    break;
+                }
+                screen.Open(mousePos.y, mousePos.x);
             }
-            //switch (sel)
+            if (input.getMouseButtonDown(1)) //when input right mouse button
+            {
+                auto mousePos = input.getMousePosition();
+                Borland::GotoXY(0, 15);
+                printf("mouse position [%03d, %03d]\n", mousePos.x, mousePos.y);
+                if (mousePos.y < 1 || mousePos.y>9 || mousePos.x < 1 || mousePos.x>9)
+                {
+                    Borland::GotoXY(0, 14);
+                    printf("You input wrong place do it again\n");
+                    Sleep(500);
+                    system("cls");
+                    break;
+                }
+                screen.Flag(mousePos.y, mousePos.x);
+            }
+            //switch (input.)
             //{
             //case 1:       //open
             //    

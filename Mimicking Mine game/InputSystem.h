@@ -213,7 +213,7 @@ public:
 		}
 
 		if (cNumRead == 0) {
-			printf("cNumRead = %d (no event)\n", cNumRead);
+			//printf("cNumRead = %d (no event)\n", cNumRead);
 			return;
 		}
 
@@ -224,7 +224,7 @@ public:
 			&cNumRead)) // number of records read
 			ErrorExit("ReadConsoleInput");
 
-		printf("cNumRead = %d (event)   \n", cNumRead);
+		//printf("cNumRead = %d (event)   \n", cNumRead);
 		for (int i = 0; i < (int)cNumRead; i++)
 		{
 			switch (irInBuf[i].EventType)
